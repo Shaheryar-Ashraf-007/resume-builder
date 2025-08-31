@@ -8,7 +8,7 @@ const resumeSchema = new mongoose.Schema({
     profileInfo:{profilePreviewUrl:String, fullName:String, designation:String, summery:String},
     contactInfo:{ email:String, phone:String, location:String, website:String, linkedin:String, github:String },
     WorkerExperience:[{company:String, role:String, startDate:Date, endDate:Date, description: String}],
-    education:[{institution:String, degree:String, fieldOfStudy:String, startDate:Date, endDate:Date, description: String}],
+    education:[{institute:String, degree:String, fieldOfStudy:String, startDate:Date, endDate:Date, description: String}],
     skills:[{
         name:String,
         progress: Number,
