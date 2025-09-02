@@ -94,6 +94,31 @@ export async function Login(req, res) {
     }
 }
 
+
+export async function Profile(req, res) {
+    try {
+        // Get user ID from the request (assuming it's in req.user)
+        const userId = req.user._id;
+
+        // Fetch user profile from the database
+        const userProfile = await User.findById(userId);
+        
+        // Check if the user profile exists
+        if (!userProfile) {
+            return res.status(404).json({ message: "Profile not found" });
+        }
+
+        // Respond with the user profile data
+        res.status(200).json({
+            message: "Profile retrieved successfully",
+            profile: userProfile,
+        });
+    } catch (error) {
+        console.error("Error retrieving profile:", error);
+        return res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
 export async function Logout(req, res) {
     res.clearCookie("token"); // Ensure the cookie name is consistent
     res.status(200).json({ success: true, message: "Logout successful" });
