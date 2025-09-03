@@ -1,40 +1,30 @@
-import { axiosInstance } from "./axios"
+import { axiosInstance } from "./axios";
 
-
-export const Signup = async(signupData) =>{
-
-    try {
-        const response = await axiosInstance.post('/auth/signup', signupData)
-    return response.data
-        
-    } catch (error) {
-        if (error.response) {
-      console.error("Error details:", error.response.data);
-      throw new Error(error.response.data.message || "Signup failed");
-    } else {
-      console.error("Error:", error.message);
-      throw new Error("Network error during signup"); 
-    }
+export const Signup = async (signupData) => {
+  try {
+    const response = await axiosInstance.post("/auth/signup", signupData);
+    return response.data;
+  } catch (error) {
+    console.log("Error in Signup", error)
   }
-        
-}
+};
 
-export async function profile(profileData) {
+export const Login = async (loginData) => {
+  try {
+    const response = await axiosInstance.post("/auth/login", loginData);
+    return response.data;
+  } catch (error) {
+    console.log("Error in Login", error)
+  }
+};
 
-    try {
-        const response = await axiosInstance.get('/auth/profile', profileData)
-        return response.data
-    } catch (error) {
-        if (error.response) {
-      console.error("Error details:", error.response.data);
-      throw new Error(error.response.data.message || "Signup failed");
-    } else {
-      console.error("Error:", error.message);
-      throw new Error("Network error during signup"); 
-    }
-       
+export const fetchProfile = async () => {
+  try {
+    const response = await axiosInstance.get("/auth/profile");
+    return response.data;
+  } catch (error) {
+    console.log("Internal error",error)
+  }
+};
 
-        
-    }
-    
-}
+// Helper function for error handling

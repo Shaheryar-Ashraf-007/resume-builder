@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { axiosInstance } from "../lib/axios";
-import { profile } from "../lib/api";
+import { fetchProfile } from "../lib/api"; // Ensure the correct import
 
 export const UsContext = createContext(); // Capitalized to follow convention
 
@@ -18,8 +18,8 @@ const UserContext = ({ children }) => {
             }
 
             try {
-                const response = await axiosInstance.get(profile);
-                setUser(response.data);
+                const response = await fetchProfile(); // Call the profile fetching function
+                setUser(response);
             } catch (error) {
                 console.log("User is not authenticated", error);
                 clearUser();
@@ -40,8 +40,33 @@ const UserContext = ({ children }) => {
         localStorage.removeItem("token");
     };
 
+    const login = async (credentials) => {
+        try {
+            const response = await axiosInstance.post('/auth/login', credentials); 
+            const { token, userData } = response.data; 
+            
+            localStorage.setItem("token", token);
+            setUser(userData);
+        } catch (error) {
+            console.error("Login failed", error);
+            throw error; 
+        }
+
+    };
+
+    const Signup = async (credentials)=>{
+        try {
+            const response = await axiosInstance.post('/auth/signup', credentials);
+            setUser(response.data.user); 
+            return response.data; 
+        } catch (error) {
+            console.error("Signup error:", error);
+            throw new Error(error.response?.data?.message || "Signup failed");
+        }
+    }
+
     return (
-        <UsContext.Provider value={{ user, loading, updateUser, clearUser }}>
+        <UsContext.Provider value={{ user, loading, updateUser, clearUser, login, Signup }}>
             {children}
         </UsContext.Provider>
     );
