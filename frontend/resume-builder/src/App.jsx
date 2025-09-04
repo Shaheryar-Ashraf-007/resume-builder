@@ -11,7 +11,7 @@ import Signup from "./pages/Auth/Signup";
 function App() {
   return (
     <UserContext>
-      <div >
+      <div className="bg-black">
         <Router>
           <Routes>
             <Route  path="/" element= {<LandingPage />} />

@@ -1,30 +1,29 @@
 import React, { useState, useContext } from 'react';
-import { Button } from "@/components/modern-ui/button"; // Adjust the import path if necessary
-import { UsContext } from '../../context/useContext'; // Adjust the import path
-import { Link } from 'react-router-dom';
+import { Button } from "@/components/modern-ui/button"; 
+import { UsContext } from '../../context/useContext'; 
+import { Link, useNavigate } from 'react-router-dom'; 
 
 const Login = () => {
-  const { login } = useContext(UsContext); // Use context to access the login function
+  const { login } = useContext(UsContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate(); 
 
   const validateEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email regex
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError(''); // Reset any previous errors
+    setError('');
 
-    // Validate email format
     if (!validateEmail(email)) {
       setError('Please enter a valid email address.');
       return;
     }
 
-    // Validate password length
     if (password.length < 6) {
       setError('Password must be at least 6 characters long.');
       return;
@@ -32,8 +31,9 @@ const Login = () => {
 
     try {
       await login({ email, password });
+      navigate("/dashboard"); 
     } catch (err) {
-      setError(err.message); 
+      setError(err.message);
     }
   };
 
@@ -49,12 +49,13 @@ const Login = () => {
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
         <div className="mb-4">
-          <label className="block text-white mb-2" htmlFor="username">
+          <label className="block text-white mb-2" htmlFor="Email">
             Email
           </label>
           <input
             type="text"
-            id="username"
+            placeholder='John@gmail.com'
+            id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full text-white p-2 border border-gray-600 rounded"
@@ -68,6 +69,7 @@ const Login = () => {
           </label>
           <input
             type="password"
+            placeholder='Min 6 characters'
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}

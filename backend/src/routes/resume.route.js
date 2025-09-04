@@ -6,7 +6,7 @@ import { uploads } from "../middleware/upload.middleware.js";
 
 const router = express.Router()
 
-router.post("/",protectRoutes, createResume )
+router.post("/create-resume",protectRoutes, createResume )
 router.get("/", protectRoutes,getUserResume )
 router.get("/:id",protectRoutes,getResumeById )
 router.put("/update-resume/:id",protectRoutes,updateResume )

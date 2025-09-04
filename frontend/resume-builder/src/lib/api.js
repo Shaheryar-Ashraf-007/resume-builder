@@ -27,4 +27,14 @@ export const fetchProfile = async () => {
   }
 };
 
+export const fetchResume = async()=>{
+  try {
+    const response = await axiosInstance.get("/resume")
+    return response.data
+  } catch (error) {
+    console.log("Error in fetching resume", error)
+    
+  }
+}
+
 // Helper function for error handling
