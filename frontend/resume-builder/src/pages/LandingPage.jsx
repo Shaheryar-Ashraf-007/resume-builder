@@ -2,9 +2,15 @@ import { Button } from "@/components/modern-ui/button";
 import resume from "../assets/resume.png";
 import Card from "./components/Card";
 import { Link } from "react-router-dom";
+import ProfileInfoCard from "@/cards/ProfileInfoCard";
+import { useContext } from "react";
+import { UserContext } from "@/context/useContext";
 
 const LandingPage = () => {
 
+  const {user} = useContext(UserContext)
+
+console.log("There is no User" , user)
 
   const cardData = [
     {
@@ -31,13 +37,19 @@ const LandingPage = () => {
         <div className="text-xl sm:text-2xl font-bold text-white">
           Resume Builder
         </div>
+        {user ? (
+          <ProfileInfoCard />
+        ): (
         <div>
           <Link to="/login">
           <Button className="bg-pink-400 hover:bg-pink-500 text-sm sm:text-base px-4 py-2">
             Login / Sign up
           </Button>
+                  
+
           </Link>
         </div>
+        )}
       </div>
 
       {/* Main Content */}

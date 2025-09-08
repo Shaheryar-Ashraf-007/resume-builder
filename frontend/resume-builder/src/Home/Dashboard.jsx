@@ -25,7 +25,6 @@ const Dashboard = () => {
 
   return (
    <DashboardLayout>
-    Dahboard
    </DashboardLayout>
   )
 }

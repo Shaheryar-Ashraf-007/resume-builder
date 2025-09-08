@@ -1,17 +1,17 @@
 import React, { useState, useContext } from 'react';
-import { Button } from "@/components/modern-ui/button";
-import { UsContext } from '../../context/useContext';
+import { Button } from "@/components/modern-ui/button"; // Adjust the import path as necessary
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from "react-hot-toast";
-import ProfilePhotoSelector from './components/ProfilePhotoSelector';
+import ProfilePhotoSelector from './components/ProfilePhotoSelector'; // Adjust the import path as necessary
+import { UserContext } from '../../context/useContext'; // Adjust the import path as necessary
 
 const Signup = () => {
-  const { Signup } = useContext(UsContext);
+  const { signup } = useContext(UserContext);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [profileImageUrl, setProfileImageUrl] = useState(null); // <-- add this
+  const [profileImageUrl, setProfileImageUrl] = useState(null);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -21,40 +21,43 @@ const Signup = () => {
     e.preventDefault();
     setError('');
 
-    if (!username.trim()) {
-      setError('Name is required.');
-      return;
-    }
-
+    // Validate email
     if (!validateEmail(email)) {
       setError('Please enter a valid email address.');
       return;
     }
 
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters long.');
-      return;
-    }
-
+    // Validate password match
     if (password !== confirmPassword) {
       setError('Passwords do not match.');
       return;
     }
 
+    const payload = {
+      username,
+      email,
+      password,
+      profileImageUrl: profileImageUrl || null,
+    };
+
+    console.log("Payload being sent:", payload);
+
     try {
-      await Signup({ username, email, password, profileImageUrl }); // ✅ pass values
-      toast.success("Account created successfully 🎉");
-      navigate("/dashboard");
-    } catch (err) {
-      setError(err.message);
-      toast.error(err.message);
-    }
+    const response = await signup(payload);
+    toast.success("User Created Successfully");
+    navigate("/dashboard");
+    return response
+} catch (error) {
+    console.error("Error in Signup:", error);
+    setError(error.message || 'Signup failed');
+    toast.error(error.message || 'Signup failed');
+}
   };
 
   return (
     <div className="bg-black w-full h-full flex items-center justify-center">
       <form
-        className="bg-[#0c0c0c] p-8 rounded-2xl mt-8 shadow-xl w-110 mb-8 border "
+        className="bg-[#0c0c0c] p-8 rounded-2xl mt-8 shadow-xl w-110 mb-8 border"
         onSubmit={handleSignup}
       >
         <h2 className="text-white text-3xl font-extrabold mb-2 text-center">
@@ -68,8 +71,7 @@ const Signup = () => {
 
         {/* Profile Photo */}
         <div className="mb-4 flex justify-center">
-          <ProfilePhotoSelector setPreview={setProfileImageUrl} /> 
-          {/* ✅ this sets profileImageUrl */}
+          <ProfilePhotoSelector setPreview={setProfileImageUrl} />
         </div>
 
         {/* Full Name */}
@@ -94,7 +96,7 @@ const Signup = () => {
             Email
           </label>
           <input
-            type="text"
+            type="email"
             placeholder="John@gmail.com"
             id="email"
             value={email}

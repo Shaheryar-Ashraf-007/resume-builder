@@ -1,10 +1,11 @@
 import { createContext, useEffect, useState } from "react";
 import { axiosInstance } from "../lib/axios";
-import { fetchProfile } from "../lib/api"; // Ensure the correct import
+import { fetchProfile } from "../lib/api.js";
+import { signup as signupApi } from "../lib/api.js"; // Ensure you import your signup API function
 
-export const UsContext = createContext(); // Capitalized to follow convention
+const UserContext = createContext(); // Create context
 
-const UserContext = ({ children }) => {
+const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -18,18 +19,26 @@ const UserContext = ({ children }) => {
       }
 
       try {
-        const response = await fetchProfile(); // Call the profile fetching function
-        setUser(response);
+        const response = await fetchProfile();
+        console.log("Fetched user response:", response.data); // Log the entire response
+
+        // Assuming the user data is in response.profile
+        if (response.profile) {
+          setUser(response.profile); // Set user state with the profile object
+        } else {
+          console.log("User data not found in response");
+          clearUser(); // Clear user if data not found
+        }
       } catch (error) {
-        console.log("User is not authenticated", error);
+        console.log("User is not authenticated:", error);
         clearUser();
       } finally {
         setLoading(false);
       }
     };
 
-    fetchUser(); // Call fetchUser on mount
-  }, []); // Empty dependency array to run once on mount
+    fetchUser();
+  }, []);
 
   const updateUser = (userData) => {
     setUser(userData);
@@ -53,30 +62,36 @@ const UserContext = ({ children }) => {
     }
   };
 
-  const Signup = async ({ username, email, password, profileImageUrl }) => {
+  const signup = async (payload) => {
     try {
-      const response = await axiosInstance.post("/auth/signup", {
-        username,
-        email,
-        password,
-        profileImageUrl: profileImageUrl || null,
-      });
+        const response = await signupApi(payload);
+        console.log("API Response:", response); // Log the complete response
 
-      const { user } = response.data;
-      setUser(user);
-      return user;
+        // Check if response has a user object
+        if (response && response.user) {
+            setUser(response.user); // Set the user in context
+            return response; // Return the response for further use
+        } else {
+            throw new Error("Signup failed: User object not returned or response is malformed.");
+        }
     } catch (error) {
-      console.error("Signup error:", error.response?.data || error.message);
-      throw new Error(error.response?.data?.message || "Signup failed");
+        // Log specific API error messages if available
+        if (error.response) {
+            console.error("API Error:", error.response.data);
+            throw new Error(error.response.data.message || 'Signup failed due to a server error.');
+        } else {
+            console.error("Signup error:", error);
+            throw new Error('Signup failed: Network error or unexpected response.');
+        }
     }
-  };
+};
+
   return (
-    <UsContext.Provider
-      value={{ user, loading, updateUser, clearUser, login, Signup }}
-    >
+    <UserContext.Provider value={{ user, loading, updateUser, clearUser, login, signup }}>
       {children}
-    </UsContext.Provider>
+    </UserContext.Provider>
   );
 };
 
-export default UserContext;
+// Only export once
+export { UserProvider, UserContext };

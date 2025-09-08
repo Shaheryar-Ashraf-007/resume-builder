@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
 import { Button } from "@/components/modern-ui/button"; 
-import { UsContext } from '../../context/useContext'; 
 import { Link, useNavigate } from 'react-router-dom'; 
+import { UserContext } from '@/context/useContext';
 
 const Login = () => {
-  const { login } = useContext(UsContext);
+  const { login } = useContext(UserContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
