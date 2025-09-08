@@ -10,10 +10,10 @@ dotenv.config();
 const app = express();
 
 const corsOptions = {
-  origin: 'http://localhost:5173', // Replace with your front-end URL
+  origin: 'http://localhost:5173', 
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true, // Allow credentials (like cookies or authorization headers)
-  optionsSuccessStatus: 204 // For legacy browser support
+  credentials: true, 
+  optionsSuccessStatus: 204
 };
 
 app.use(cors(corsOptions));
