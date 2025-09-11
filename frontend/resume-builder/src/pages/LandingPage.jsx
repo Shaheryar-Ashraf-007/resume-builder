@@ -1,16 +1,27 @@
 import { Button } from "@/components/modern-ui/button";
 import resume from "../assets/resume.png";
 import Card from "./components/Card";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import ProfileInfoCard from "@/cards/ProfileInfoCard";
 import { useContext } from "react";
 import { UserContext } from "@/context/useContext";
 
 const LandingPage = () => {
 
+  const navigation = useNavigate()
+
   const {user} = useContext(UserContext)
 
 console.log("There is no User" , user)
+
+
+const handleCTA = ()=>{
+
+  if(user){
+    navigation("/dashboard")
+  }
+
+}
 
   const cardData = [
     {
@@ -66,11 +77,9 @@ console.log("There is no User" , user)
             Craft a standout resume in minutes with our smart and intuitive
             resume builder
           </p>
-          <Link to= "/login">
-          <Button className="mt-8 sm:mt-12 md:mt-16 lg:mt-16 h-10 sm:h-12 w-32 sm:w-36 text-sm sm:text-md bg-pink-400 hover:bg-pink-500">
+          <Button className="mt-8 sm:mt-12 md:mt-16 lg:mt-16 h-10 sm:h-12 w-32 sm:w-36 text-sm sm:text-md bg-pink-400 hover:bg-pink-500" onClick = {handleCTA}>
             Get Started
           </Button>
-          </Link>
         </div>
 
         {/* Image */}

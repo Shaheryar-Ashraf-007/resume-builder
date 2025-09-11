@@ -2,7 +2,7 @@ import React from 'react'
 
 const EditResume = () => {
   return (
-    <div>EditResume</div>
+    <div className='text-white'>EditResume</div>
   )
 }
 

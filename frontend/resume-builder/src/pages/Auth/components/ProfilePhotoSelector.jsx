@@ -74,7 +74,7 @@ const ProfilePhotoSelector = ({ setPreview }) => {
                     <LucideUser className="w-24 h-24 text-blue-400 cursor-pointer" />
                     <button
                         type="button"
-                        className="w-16 h-16 flex items-center justify-center bg-blue-400 text-white rounded-full absolute -bottom-1 -right-2"
+                        className="w-16 h-16 flex items-center justify-center bg-blue-400 text-white rounded-full absolute -bottom-1 -right-2 cursor-pointer"
                     >
                         <LucideUpload />
                     </button>
@@ -88,7 +88,7 @@ const ProfilePhotoSelector = ({ setPreview }) => {
                     />
                     <button
                         type="button"
-                        className="absolute -bottom-1 -right-1 bg-red-500 hover:bg-red-600 text-white p-2 rounded-full shadow-md"
+                        className="absolute -bottom-0 -right-0 bg-red-500 hover:bg-red-600 text-white p-2 rounded-full shadow-md"
                         onClick={handleRemoveImage}
                     >
                         <Trash2 className="w-8 h-8 cursor-pointer" />

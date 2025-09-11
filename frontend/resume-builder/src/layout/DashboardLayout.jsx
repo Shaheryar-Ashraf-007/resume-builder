@@ -18,7 +18,6 @@ const DashboardLayout = ({ children, activeMenu }) => {
             <Navbar activeMenu={activeMenu} />
             {user ? (
                 <div className="container mx-auto pt-4 pb-4 text-white">
-                    <h1>Dashboard</h1>
                     {children}
                 </div>
             ) : (
