@@ -15,6 +15,9 @@ export async function uploadImages(req, res) {
 
     const resumeId = req.params.id;
 
+    // Define the upload folder path
+    const uploadFolders = path.join(process.cwd(), 'uploads'); // Adjust as necessary
+
     // Find the resume associated with the user
     const resume = await Resume.findOne({ _id: resumeId, userId: req.user._id });
 

@@ -11,11 +11,9 @@ router.get("/", protectRoutes,getUserResume )
 router.get("/:id",protectRoutes,getResumeById )
 router.put("/:id/update-resume",protectRoutes,updateResume )
 router.put("/update-images/:id",uploadMiddleware,uploadImages )
-router.post('/:id/upload-image',protectRoutes, uploadMiddleware, uploadImages)
-
 
 router.delete("/delete-resume/:id", protectRoutes ,deleteResume )
+router.post('/',protectRoutes, uploadMiddleware, uploadImages)
+
 
 export default router
-
-// openssl rand -base64 32
