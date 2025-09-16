@@ -10,10 +10,9 @@ router.post("/create-resume",protectRoutes, createResume )
 router.get("/", protectRoutes,getUserResume )
 router.get("/:id",protectRoutes,getResumeById )
 router.put("/:id/update-resume",protectRoutes,updateResume )
-router.put("/update-images/:id",uploadMiddleware,uploadImages )
+router.put("/:id/upload-images", protectRoutes, uploadMiddleware,uploadImages )
 
 router.delete("/delete-resume/:id", protectRoutes ,deleteResume )
-router.post('/',protectRoutes, uploadMiddleware, uploadImages)
 
 
 export default router
