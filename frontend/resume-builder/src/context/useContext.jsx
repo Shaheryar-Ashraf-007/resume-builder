@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { axiosInstance } from "../lib/axios";
-import { fetchProfile } from "../lib/api.js";
+import { createResume, fetchProfile } from "../lib/api.js";
 import { signup as signupApi } from "../lib/api.js"; // Ensure you import your signup API function
 
 const UserContext = createContext(); // Create context
@@ -86,8 +86,19 @@ const UserProvider = ({ children }) => {
     }
 };
 
+
+const Resume = async(resumeData)=>{
+  try {
+    const response = await createResume(resumeData)
+    return response.data
+  }
+  catch (error) {
+    console.log("Error in creating resume", error)
+  }
+}
+
   return (
-    <UserContext.Provider value={{ user, loading, updateUser, clearUser, login, signup }}>
+    <UserContext.Provider value={{ user, loading, updateUser, clearUser, login, signup, Resume }}>
       {children}
     </UserContext.Provider>
   );

@@ -53,4 +53,11 @@ export const fetchResume = async()=>{
   }
 }
 
-// Helper function for error handling
+export const createResume = async(resumeData)=>{
+  try {
+    const response = await axiosInstance.post("/resume/create-resume", resumeData)
+    return response.data
+  }
+  catch (error) {
+    console.log("Error in creating resume", error)
+}}
